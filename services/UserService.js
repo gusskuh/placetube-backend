@@ -1,0 +1,52 @@
+const mongo = require('mongodb');
+var DBService = require('./DBService');
+
+module.exports.checkLogin = user => {
+  return new Promise((resolve, reject) => {
+    DBService.dbConnect().then(db => {
+      db
+        .collection('users')
+        .findOne({ email: user.email, password: user.password }, function(
+          err,
+          userFromDB
+        ) {
+          if (err) reject(err)
+          else resolve(userFromDB)
+          db.close();
+        });
+    });
+  });
+};
+
+function validateDetails(user) {
+  console.log(user);
+  return user.name !=='puki';
+}
+
+module.exports.addUser = user => {
+  console.log('user from service', user);
+  
+  return new Promise((resolve, reject) => {
+    let isValidate = validateDetails(user);
+    if (!isValidate) reject('Validate failed!');
+    DBService.dbConnect().then(db => {
+      db
+        .collection('users')
+        .findOne({ email: user.email }, function(err, userFromDB) {
+          // If name is already used!
+          if (userFromDB) {
+            console.log('email is already used!');
+            reject('email is already used!');
+            db.close();
+          } else {
+            db.collection('users').insert(user, (err, res) => {
+              if (err) reject(err);
+              else resolve(res.ops);
+              db.close();
+            });
+          }
+          
+        });
+    });
+  });
+};
