@@ -8,12 +8,10 @@ module.exports = app => {
       if (userFromDB) {
         console.log('Login!', req.session);
         delete userFromDB.password;
-        // req.session.user = userFromDB;
 
         res.json({ token: 'Beareloginr: puk115th@b@5t', user: userFromDB });
       } else {
         console.log('Login NOT Successful');
-        // req.session.user = null;
         res.status(403).send({ error: 'Login failed!' });
       }
     });
@@ -21,7 +19,6 @@ module.exports = app => {
 
   app.post('/register', function (req, res) {
     var user = req.body;
-    // console.log('user from routes!!!',req);
     
     UserService.addUser(user)
       .then(addedUser => res.json(addedUser))
@@ -29,7 +26,6 @@ module.exports = app => {
   });
 
   app.post('/logout', function (req, res) {
-    // req.session.reset();
     res.end('Loggedout');
   });
 
