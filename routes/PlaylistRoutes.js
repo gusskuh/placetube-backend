@@ -40,7 +40,6 @@ module.exports = app => {
     const playlistId = req.params.playlistId;
     const songs = req.body;
     console.log('replace songs', playlistId, songs );
-    // playlist._id = playlistId;
     PlaylistService.updateSongs(playlistId, songs)
       .then(playlist => res.json(playlist))
       .catch(err => res.status(500).send("Could not add playlist"));
