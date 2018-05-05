@@ -6,7 +6,6 @@ module.exports = app => {
     UserService.checkLogin(user).then(userFromDB => {
       console.log('userFromDB', userFromDB)
       if (userFromDB) {
-        console.log('Login!', req.session);
         delete userFromDB.password;
 
         res.json({ token: 'Beareloginr: puk115th@b@5t', user: userFromDB });

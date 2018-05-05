@@ -29,10 +29,10 @@ module.exports = app => {
       .catch(err => res.status(500).send("Could not delete playlist"));
   });
 
-  app.post(PLAYLIST_URL, (req, res) => {
+  app.put(PLAYLIST_URL, (req, res) => {   
     const playlist = req.body;
     PlaylistService.addPlaylist(playlist)
-      .then(playlist => res.json(playlist))
+      .then(playlist => res.json(playlist.ops[0]))
       .catch(err => res.status(500).send("Could not add playlist"));
   });
 
@@ -53,5 +53,16 @@ module.exports = app => {
     PlaylistService.updatePlaylist(playlist)
       .then(playlist => res.json(playlist))
       .catch(err => res.status(500).send("Could not update playlist"));
+  });
+
+  app.put(PLAYLIST_URL, (req, res) => {
+    const playlist = req.body;
+    
+    PlaylistService.addPlaylist(playlist)
+      .then(addedPlaylist => {
+        res.json(addedPlaylist.ops[0])
+      } )
+        
+      .catch(err => res.status(500).send("Could not add playlist"));
   });
 };
