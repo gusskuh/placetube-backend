@@ -21,7 +21,6 @@ module.exports = app => {
 
   app.delete(`${PLAYLIST_URL}/:playlistId`, (req, res) => {
     const playlistId = req.params.playlistId;
-    
     if (!playlistId) {
       res.status(500).send("Missing PlaylistID to delete");
     }
@@ -30,18 +29,9 @@ module.exports = app => {
       .catch(err => res.status(500).send("Could not delete playlist"));
   });
 
-  app.put(PLAYLIST_URL, (req, res) => {       
+  app.post(PLAYLIST_URL, (req, res) => {
     const playlist = req.body;
     PlaylistService.addPlaylist(playlist)
-      .then(addedPlaylist => res.json(addedPlaylist.ops[0]))
-      .catch(err => res.status(500).send("Could not add playlist"));
-  });
-
-  app.post(`${PLAYLIST_URL}/:playlistId`, (req, res) => {
-    const playlistId = req.params.playlistId;
-    const songs = req.body;
-    console.log('replace songs', playlistId, songs );
-    PlaylistService.updateSongs(playlistId, songs)
       .then(playlist => res.json(playlist))
       .catch(err => res.status(500).send("Could not add playlist"));
   });
