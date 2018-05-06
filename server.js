@@ -4,6 +4,18 @@ const cors = require('express-cors');
 const clientSessions = require('client-sessions');
 
 
+// var http = require("http").Server(app);
+// var io = require("socket.io")(http);
+
+// app.get("/", function(req, res) {
+//     res.sendFile(__dirname + `/playlists/5ae9af8eaf34620eb6123336`);
+//   });
+
+//   io.on(`connection`, function(socket) {
+//     console.log("connected users!!!!!!");
+//   }
+
+
 
 const app = express()
 app.use(cors({
