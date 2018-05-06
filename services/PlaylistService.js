@@ -1,3 +1,4 @@
+
 const mongo = require("mongodb");
 const DBService = require("./DBService");
 
@@ -17,14 +18,14 @@ function getplayLists() {
 }
 
 function addPlaylist(playlist) {
-    
+   
   return new Promise((resolve, reject) => {
     DBService.dbConnect().then(db => {
-      db.collection("playlists").insert(playlist, function(err, addedPlaylist) {
+      db.collection("playlists").insert(playlist, function(err, addedPlaylist) {        
         db
           .collection("users")
           .updateOne(
-            { _id: addedPlaylist.adminId },
+            { _id: new mongo.ObjectID(addedPlaylist.ops[0].adminId) },
             { $push: { playlistsIds: addedPlaylist.ops[0]._id.toString() } }
           );
         if (err) reject(err);
@@ -35,20 +36,30 @@ function addPlaylist(playlist) {
   });
 }
 
-function deletePlaylist(playlistId) {
-  playlistId = new mongo.ObjectID(playlistId);
-  return new Promise((resolve, reject) => {
-    DBService.dbConnect().then(db => {
-      db
-        .collection("playlists")
-        .deleteOne({ _id: playlistId }, function(err, res) {
-          if (err) reject(err);
-          else resolve();
-          db.close();
-        });
-    });
-  });
-}
+// function deletePlaylist(playlistId) {
+  
+//   return new Promise((resolve, reject) => {
+//     DBService.dbConnect().then(db => {
+//       db.collection("playlists").find({_id: new mongo.ObjectID(playlistId)}).toArray((err, playlist) => {
+//         console.log(playlist[0].adminId);
+//         db.collection("playlists").deleteOne({ _id: new mongo.ObjectID(playlistId) }, function(err, res) {
+
+          
+            
+//             db.collection("users").updateOne(
+//               { _id: new mongo.ObjectID(playlist[0].adminId) },
+//               { $slice: { playlistsIds: playlistId } }
+//             );
+//           })
+          
+          
+//           if (err) reject(err);
+//           else resolve();
+//           db.close();
+//         });
+//     });
+//   });
+// }
 
 function getById(playlistId) {
   playlistId = new mongo.ObjectID(playlistId);
