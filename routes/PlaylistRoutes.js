@@ -55,15 +55,4 @@ module.exports = app => {
       .then(playlist => res.json(playlist))
       .catch(err => res.status(500).send("Could not update playlist"));
   });
-
-  // app.put(PLAYLIST_URL, (req, res) => {
-  //   const playlist = req.body;
-    
-  //   PlaylistService.addPlaylist(playlist)
-  //     .then(addedPlaylist => {
-  //       res.json(addedPlaylist.ops[0])
-  //     } )
-        
-  //     .catch(err => res.status(500).send("Could not add playlist"));
-  // });
 };

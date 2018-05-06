@@ -36,30 +36,29 @@ function addPlaylist(playlist) {
   });
 }
 
-// function deletePlaylist(playlistId) {
+function deletePlaylist(playlistId) {
   
-//   return new Promise((resolve, reject) => {
-//     DBService.dbConnect().then(db => {
-//       db.collection("playlists").find({_id: new mongo.ObjectID(playlistId)}).toArray((err, playlist) => {
-//         console.log(playlist[0].adminId);
-//         db.collection("playlists").deleteOne({ _id: new mongo.ObjectID(playlistId) }, function(err, res) {
+  return new Promise((resolve, reject) => {
+    DBService.dbConnect().then(db => {
+      db.collection("playlists").find({_id: new mongo.ObjectID(playlistId)}).toArray((err, playlist) => {
 
-          
-            
-//             db.collection("users").updateOne(
-//               { _id: new mongo.ObjectID(playlist[0].adminId) },
-//               { $slice: { playlistsIds: playlistId } }
-//             );
-//           })
-          
-          
-//           if (err) reject(err);
-//           else resolve();
-//           db.close();
-//         });
-//     });
-//   });
-// }
+        console.log(playlist[0].adminId);
+        db.collection("users").updateOne(
+          { _id: new mongo.ObjectID(playlist[0].adminId) },
+          { $pull: { playlistsIds: playlistId } }
+        );
+        db.collection("playlists").deleteOne({ _id: new mongo.ObjectID(playlistId) }, function(err, res) {
+          if (err) reject(err);
+          else resolve();
+          db.close();
+          })
+          if (err) reject(err);
+          else resolve();
+          db.close();
+        });
+    });
+  });
+}
 
 function getById(playlistId) {
   playlistId = new mongo.ObjectID(playlistId);
@@ -97,7 +96,7 @@ function updatePlaylist(playlist) {
 function updateSongs(playlistId, newSongs) {
   playlistId = new mongo.ObjectID(playlistId);
   return new Promise((resolve, reject) => {
-    DBService.dbConnect().then(db => {
+    getDB().then(db => {
       db
         .collection("playlists")
         .updateOne({ _id: playlistId }, { $set: { songs: newSongs } }, function(
@@ -110,6 +109,12 @@ function updateSongs(playlistId, newSongs) {
         });
     });
   });
+}
+
+
+
+function getDB() {
+  return DBService.dbConnect();
 }
 
 module.exports = {
