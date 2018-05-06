@@ -86,7 +86,7 @@ function updatePlaylist(playlist) {
 function updateSongs(playlistId, newSongs) {
   playlistId = new mongo.ObjectID(playlistId);
   return new Promise((resolve, reject) => {
-    DBService.dbConnect().then(db => {
+    getDB().then(db => {
       db
         .collection("playlists")
         .updateOne({ _id: playlistId }, { $set: { songs: newSongs } }, function(
@@ -99,6 +99,12 @@ function updateSongs(playlistId, newSongs) {
         });
     });
   });
+}
+
+
+
+function getDB() {
+  return DBService.dbConnect();
 }
 
 module.exports = {
