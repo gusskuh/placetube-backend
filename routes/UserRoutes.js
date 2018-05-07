@@ -28,6 +28,15 @@ module.exports = app => {
     res.end('Loggedout');
   });
 
+  app.put(`/:userId`, (req, res) => {
+    const userId = req.params.userId;
+    const user = req.body;
+    user._id = userId;
+   UserService.updateUser(user)
+      .then(user => res.json(user))
+      .catch(err => res.status(500).send("Could not update user"));
+  });
+
   // app.get('/profile', isLoggedIn, (req, res) => {
   //   res.end(`Profile of ${req.session.user.name}`);
   // });
