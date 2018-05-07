@@ -50,3 +50,21 @@ module.exports.addUser = user => {
     });
   });
 };
+
+module.exports.updateUser = user => {
+  user._id = new mongo.ObjectID(user._id);
+  return new Promise((resolve, reject) => {
+    DBService.dbConnect().then(db => {
+      db
+        .collection("users")
+        .updateOne({ _id: user._id },{$set:{profileImg: user.profileImg}} , function(
+          err,
+          updatedUser
+        ) {
+          if (err) reject(err);
+          else resolve(updatedUser);
+          db.close();
+        });
+    });
+  });
+}
