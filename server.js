@@ -38,6 +38,10 @@ app.use(
 );
 
 io.on(`connection`, function(socket) {
+  socket.on("moveSong", (songInfo) => {        
+    socket.broadcast.emit("moveSong", songInfo);
+  });
+
   socket.on("mavet_lesoket", () => {
     io.emit("mavet_lesoket");
    
