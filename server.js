@@ -42,10 +42,6 @@ io.on(`connection`, function(socket) {
     socket.broadcast.emit("moveSong", songInfo);
   });
 
-  socket.on("mavet_lesoket", () => {
-    io.emit("mavet_lesoket");
-   
-  });
   socket.on("playingNewSong", currSong => {
     socket.broadcast.emit("playingNewSong", currSong);
    
@@ -57,6 +53,18 @@ io.on(`connection`, function(socket) {
    
   });
 
+  
+  socket.on("userJoined", () => {
+    // console.log(currSongTime);
+    socket.broadcast.emit("userJoined");
+   
+  });
+  
+  socket.on("startPlay", (currSongTime) => {
+    // console.log(currSongTime);
+    socket.broadcast.emit("startPlay",currSongTime);
+   
+  });
 
 
 
