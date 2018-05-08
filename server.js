@@ -36,9 +36,15 @@ app.use(
     activeDuration: 5 * 60 * 1000
   })
 );
+
 io.on(`connection`, function(socket) {
   socket.on("mavet_lesoket", () => {
     io.emit("mavet_lesoket");
+   
+  });
+  socket.on("playing_New_Song", currSong => {
+    socket.broadcast.emit("playing_New_Song", currSong);
+   
   });
 });
 
