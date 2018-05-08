@@ -46,10 +46,20 @@ io.on(`connection`, function(socket) {
     io.emit("mavet_lesoket");
    
   });
-  socket.on("playing_New_Song", currSong => {
-    socket.broadcast.emit("playing_New_Song", currSong);
+  socket.on("playingNewSong", currSong => {
+    socket.broadcast.emit("playingNewSong", currSong);
    
   });
+
+  socket.on("currSongSec", currSongTime => {
+    // console.log(currSongTime);
+    socket.broadcast.emit("currSongSec", currSongTime);
+   
+  });
+
+
+
+
 });
 
 http.listen(3000, () => console.log("App is listening on port 3000!"));
