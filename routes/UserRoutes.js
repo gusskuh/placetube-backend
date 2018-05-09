@@ -4,13 +4,12 @@ module.exports = app => {
   app.post('/login', (req, res) => {
     const user = req.body;
     UserService.checkLogin(user).then(userFromDB => {
-      console.log('userFromDB', userFromDB)
       if (userFromDB) {
         delete userFromDB.password;
 
         res.json({ token: 'Beareloginr: puk115th@b@5t', user: userFromDB });
       } else {
-        console.log('Login NOT Successful');
+        // console.log('Login NOT Successful');
         res.status(403).send({ error: 'Login failed!' });
       }
     });

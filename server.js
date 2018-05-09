@@ -36,10 +36,49 @@ app.use(
     activeDuration: 5 * 60 * 1000
   })
 );
+
 io.on(`connection`, function(socket) {
-  socket.on("mavet_lesoket", () => {
-    io.emit("mavet_lesoket");
+  socket.on("moveSong", (songInfo) => {        
+    socket.broadcast.emit("moveSong", songInfo);
   });
+
+  socket.on("playingNewSong", currSong => {
+    socket.broadcast.emit("playingNewSong", currSong);
+   
+  });
+
+  socket.on("currSongSec", currSongTime => {
+    // console.log(currSongTime);
+    socket.broadcast.emit("currSongSec", currSongTime);
+   
+  });
+
+  
+  socket.on("userJoined", () => {
+    // console.log(currSongTime);
+    socket.broadcast.emit("userJoined");
+   
+  });
+  
+  socket.on("startPlay", (currSongTime) => {
+    // console.log(currSongTime);
+    socket.broadcast.emit("startPlay",currSongTime);
+   
+  });
+  socket.on("deleteSong", (videoId) => {
+    socket.broadcast.emit("deleteSong",videoId);
+   
+  });
+
+  socket.on("pauseSong", () => {
+    socket.broadcast.emit("pauseSong");
+   
+  });
+
+  
+
+
+
 });
 
 http.listen(3000, () => console.log("App is listening on port 3000!"));
