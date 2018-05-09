@@ -75,17 +75,7 @@ io.on(`connection`, function(socket) {
    
   });
 
-  socket.on("deleteSong", (videoId) => {
-    // console.log(currSongTime);
-    socket.broadcast.emit("deleteSong",videoId);
-   
-  });
-
-  socket.on("pauseSong", () => {
-    // console.log(currSongTime);
-    socket.broadcast.emit("pauseSong");
-   
-  });
+  
 
 
 
