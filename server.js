@@ -48,37 +48,26 @@ io.on(`connection`, function(socket) {
     socket.broadcast.emit("moveSong", songInfo);
   });
 
-  socket.on("playingNewSong", ()=> {
+  socket.on("playingNewSong", () => {
     socket.broadcast.emit("playingNewSong");
-   
   });
-
-  socket.on("currSongSec", currSongTime => {
-    // console.log(currSongTime);
-    socket.broadcast.emit("currSongSec", currSongTime);
-   
-  });
-
   
-  socket.on("userJoined", () => {
-    // console.log(currSongTime);
-    socket.broadcast.emit("userJoined");
-   
+  socket.on("userJoined", (isSongPlaying) => {
+    console.log(isSongPlaying);
+    
+    socket.broadcast.emit("userJoined", isSongPlaying);
   });
   
   socket.on("startPlay", (currSongTime) => {
-    // console.log(currSongTime);
     socket.broadcast.emit("startPlay",currSongTime);
-   
   });
+  
   socket.on("deleteSong", (videoId) => {
     socket.broadcast.emit("deleteSong",videoId);
-   
   });
 
   socket.on("pauseSong", () => {
     socket.broadcast.emit("pauseSong");
-   
   });
 
   socket.on("resumeSong", () => {
@@ -88,12 +77,7 @@ io.on(`connection`, function(socket) {
 
   socket.on("addSong", (songToAdd) => {
     socket.broadcast.emit("addSong", songToAdd);
-   
   });
-
-  
-
-
 
 });
 
