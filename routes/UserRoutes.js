@@ -36,6 +36,13 @@ module.exports = app => {
       .catch(err => res.status(500).send("Could not update user"));
   });
 
+  app.get('/users', (req, res) => {
+    UserService.getUsers(req.query).then(users => {
+      res.json(users)
+    })
+    .catch(err => res.status(500).send(err.message))
+  })
+
   // app.get('/profile', isLoggedIn, (req, res) => {
   //   res.end(`Profile of ${req.session.user.name}`);
   // });

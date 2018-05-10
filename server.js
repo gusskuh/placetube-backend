@@ -5,6 +5,7 @@ const clientSessions = require("client-sessions");
 
 const app = express();
 
+
 var http = require("http").Server(app);
 var io = require("socket.io")(http);
 
@@ -12,15 +13,20 @@ app.use(
   cors({
     allowedOrigins: [
       "localhost:5500",
+      "127.0.0.1:62313",
       "127.0.0.1:5500",
       "localhost:8080",
-      "127.0.0.1:8080"
+      "localhost:3000",
+      "127.0.0.1:61497",
+      "127.0.0.1:8080",
+      'localhost:8081', '127.0.0.1:8081'
     ]
   })
 );
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
 
 const playlistRoutes = require("./routes/playlistRoutes");
 playlistRoutes(app);
@@ -42,43 +48,46 @@ io.on(`connection`, function(socket) {
     socket.broadcast.emit("moveSong", songInfo);
   });
 
-  socket.on("playingNewSong", currSong => {
-    socket.broadcast.emit("playingNewSong", currSong);
-   
+  socket.on("playingNewSong", () => {
+    socket.broadcast.emit("playingNewSong");
   });
-
-  socket.on("currSongSec", currSongTime => {
-    // console.log(currSongTime);
-    socket.broadcast.emit("currSongSec", currSongTime);
-   
-  });
-
   
-  socket.on("userJoined", () => {
-    // console.log(currSongTime);
-    socket.broadcast.emit("userJoined");
-   
+  socket.on("userJoined", (isSongPlaying) => {
+    console.log(isSongPlaying);
+    
+    socket.broadcast.emit("userJoined", isSongPlaying);
   });
   
   socket.on("startPlay", (currSongTime) => {
-    // console.log(currSongTime);
     socket.broadcast.emit("startPlay",currSongTime);
-   
   });
+  
   socket.on("deleteSong", (videoId) => {
     socket.broadcast.emit("deleteSong",videoId);
-   
   });
 
   socket.on("pauseSong", () => {
     socket.broadcast.emit("pauseSong");
+  });
+
+  socket.on("resumeSong", () => {
+    socket.broadcast.emit("resumeSong");
    
   });
 
-  
-
-
+  socket.on("addSong", (songToAdd) => {
+    socket.broadcast.emit("addSong", songToAdd);
+  });
 
 });
 
 http.listen(3000, () => console.log("App is listening on port 3000!"));
+
+// const port = process.env.PORT||3000
+
+// app.listen(port, 
+// 	() => console.log(`Example app listening on port ${port}!`));
+
+// const PORT = process . env . PORT || 3000
+// app . listen ( PORT , () => console . log ( ` Example app listening on port
+// ${ PORT } ! ` )) ;

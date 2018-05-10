@@ -11,7 +11,9 @@ module.exports = app => {
   });
 
   app.get(`${PLAYLIST_URL}/:playlistId`, (req, res) => {
+    console.log("inside the funclsd")
     const playlistId = req.params.playlistId;
+    console.log(playlistId)
     PlaylistService.getById(playlistId)
       .then(playlist => {
         res.json(playlist);
