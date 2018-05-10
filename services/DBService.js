@@ -1,4 +1,5 @@
-var DB_URL = 'mongodb://localhost:27017/placetubedb'
+// var DB_URL = 'mongodb://localhost:27017/placetubedb'
+var DB_URL = 'mongodb://admin:admin@ds219000.mlab.com:19000/placetubedb'
 const mongo = require('mongodb')
 
 var MongoClient = mongo.MongoClient;
