@@ -68,3 +68,15 @@ module.exports.updateUser = user => {
     });
   });
 }
+
+
+module.exports.getUsers = users => {
+    return new Promise((resolve, reject) => {
+      return DBService.dbConnect().then(db => {
+        db.collection('users').find().toArray((err , users) => {
+          if (err) return reject(err)
+          resolve(users)
+        })
+      })
+    })
+}

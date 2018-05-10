@@ -5,6 +5,7 @@ const clientSessions = require("client-sessions");
 
 const app = express();
 
+
 var http = require("http").Server(app);
 var io = require("socket.io")(http);
 
@@ -12,15 +13,20 @@ app.use(
   cors({
     allowedOrigins: [
       "localhost:5500",
+      "127.0.0.1:62313",
       "127.0.0.1:5500",
       "localhost:8080",
-      "127.0.0.1:8080"
+      "localhost:3000",
+      "127.0.0.1:61497",
+      "127.0.0.1:8080",
+      'localhost:8081', '127.0.0.1:8081'
     ]
   })
 );
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
 
 const playlistRoutes = require("./routes/playlistRoutes");
 playlistRoutes(app);
@@ -42,8 +48,8 @@ io.on(`connection`, function(socket) {
     socket.broadcast.emit("moveSong", songInfo);
   });
 
-  socket.on("playingNewSong", currSong => {
-    socket.broadcast.emit("playingNewSong", currSong);
+  socket.on("playingNewSong", ()=> {
+    socket.broadcast.emit("playingNewSong");
    
   });
 
@@ -75,6 +81,16 @@ io.on(`connection`, function(socket) {
    
   });
 
+  socket.on("resumeSong", () => {
+    socket.broadcast.emit("resumeSong");
+   
+  });
+
+  socket.on("addSong", (songToAdd) => {
+    socket.broadcast.emit("addSong", songToAdd);
+   
+  });
+
   
 
 
@@ -82,3 +98,12 @@ io.on(`connection`, function(socket) {
 });
 
 http.listen(3000, () => console.log("App is listening on port 3000!"));
+
+// const port = process.env.PORT||3000
+
+// app.listen(port, 
+// 	() => console.log(`Example app listening on port ${port}!`));
+
+// const PORT = process . env . PORT || 3000
+// app . listen ( PORT , () => console . log ( ` Example app listening on port
+// ${ PORT } ! ` )) ;
