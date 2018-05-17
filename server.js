@@ -28,7 +28,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 
-const playlistRoutes = require("./routes/playlistRoutes");
+const playlistRoutes = require("./routes/PlaylistRoutes");
 playlistRoutes(app);
 
 const addUserRoutes = require("./routes/UserRoutes.js");
